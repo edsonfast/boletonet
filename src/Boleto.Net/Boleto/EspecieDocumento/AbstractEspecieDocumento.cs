@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BoletoNet
-{
-    public abstract class AbstractEspecieDocumento : IEspecieDocumento
-    {
+namespace BoletoNet {
+    public abstract class AbstractEspecieDocumento : IEspecieDocumento {
         #region Variaveis
 
         private IBanco _banco;
@@ -17,26 +15,22 @@ namespace BoletoNet
 
         # region Propriedades
 
-        public virtual IBanco Banco
-        {
-            get{ return _banco; }
-            set{ _banco = value; }
+        public virtual IBanco Banco {
+            get { return _banco; }
+            set { _banco = value; }
         }
 
-        public virtual string Codigo
-        {
+        public virtual string Codigo {
             get { return _codigo; }
             set { _codigo = value; }
         }
 
-        public virtual string Sigla
-        {
+        public virtual string Sigla {
             get { return _sigla; }
             set { _sigla = value; }
         }
 
-        public virtual string Especie
-        {
+        public virtual string Especie {
             get { return _especie; }
             set { _especie = value; }
         }
@@ -44,5 +38,7 @@ namespace BoletoNet
         # endregion
 
         public abstract IEspecieDocumento DuplicataMercantil();
+
+        public abstract string getCodigoEspecieBySigla(string sigla);
     }
 }

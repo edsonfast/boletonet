@@ -91,5 +91,7 @@ namespace BoletoNet {
         {
             return new EspecieDocumento_Cecred(getCodigoEspecieByEnum(EnumEspecieDocumento_Cecred.DuplicataMercantil));
         }
+
+        public override string getCodigoEspecieBySigla(string sigla) { return sigla; }
     }
 }

@@ -164,5 +164,7 @@ namespace BoletoNet
         }
 
         #endregion
+
+        public override string getCodigoEspecieBySigla(string sigla) { return sigla; }
     }
 }

@@ -98,6 +98,7 @@
     <Compile Include="Banco\Banco_Cecred.cs" />
     <Compile Include="Banco\Banco_Semear.cs" />
     <Compile Include="Banco\Banco_Sofisa.cs" />
+    <Compile Include="Banco\Banco_Unicred.cs" />
     <Compile Include="Banco\Banco_Votorantim.cs" />
     <Compile Include="Banco\Carteiras\BancoCarteiraFactory.cs" />
     <Compile Include="Banco\Carteiras\Brasil\Carteira18Brasil.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Nordeste.cs" />
     <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Sicoob.cs" />
     <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Sofisa.cs" />
+    <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Unicred.cs" />
     <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Votorantim.cs" />
     <Compile Include="Boleto\Instrucao\Instrucao_BancoNordeste.cs" />
     <Compile Include="Boleto\Instrucao\Instrucao_Banestes.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Boleto\Instrucao\Instrucao_Sicoob.cs" />
     <Compile Include="Boleto\Instrucao\Instrucao_Sicredi.cs" />
     <Compile Include="Boleto\Instrucao\Instrucao_Sudameris.cs" />
+    <Compile Include="Boleto\Instrucao\Instrucao_Unicred.cs" />
     <Compile Include="Boleto\Instrucao\Instrucao_Votorantim.cs" />
     <Compile Include="Boleto\Remessa.cs" />
     <Compile Include="Boleto\DemonstrativoValoresBoleto\GrupoDemonstrativo.cs" />
@@ -347,6 +350,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Imagens\743.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Imagens\136.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
