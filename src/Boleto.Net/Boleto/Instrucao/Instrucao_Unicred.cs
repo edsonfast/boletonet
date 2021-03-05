@@ -35,7 +35,7 @@ namespace BoletoNet {
 
         public Instrucao_Unicred() {
             try {
-                this.Banco = new Banco(748);
+                this.Banco = new Banco(136);
             } catch (Exception ex) {
                 throw new Exception("Erro ao carregar objeto", ex);
             }

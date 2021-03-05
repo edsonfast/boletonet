@@ -18,6 +18,25 @@ namespace BoletoNet {
     #endregion
 
     public class EspecieDocumento_Unicred : AbstractEspecieDocumento, IEspecieDocumento {
+       
+        #region Construtores
+
+        public EspecieDocumento_Unicred() {
+            try { } catch (Exception ex) {
+                throw new Exception("Erro ao carregar objeto", ex);
+            }
+        }
+
+        public EspecieDocumento_Unicred(string codigo) {
+            try {
+                carregar(codigo);
+            } catch (Exception ex) {
+                throw new Exception("Erro ao carregar objeto", ex);
+            }
+        }
+
+        #endregion
+
         public string getCodigoEspecieByEnum(EnumEspecieDocumento_Unicred especie) {
             switch (especie) {
                 case EnumEspecieDocumento_Unicred.DuplicataMercantil: return "DM";
@@ -49,23 +68,7 @@ namespace BoletoNet {
 
         public override string getCodigoEspecieBySigla(string sigla) { return sigla; }
 
-        #region Construtores
-
-        public EspecieDocumento_Unicred() {
-            try { } catch (Exception ex) {
-                throw new Exception("Erro ao carregar objeto", ex);
-            }
-        }
-
-        public EspecieDocumento_Unicred(string codigo) {
-            try {
-                carregar(codigo);
-            } catch (Exception ex) {
-                throw new Exception("Erro ao carregar objeto", ex);
-            }
-        }
-
-        #endregion
+        
 
         #region Metodos Privados
 

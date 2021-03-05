@@ -13,11 +13,32 @@ namespace Boleto.Net.Testes.BancoBrasil
         {
             DateTime vencimento = new DateTime(2012, 6, 14);
 
+            // Cedente
             var cedente = new Cedente("00.000.000/0000-00", "Empresa Teste", "0131", "7", "00059127", "0");
 
+            // Sacado
+            var endereco = new Endereco();
+            endereco.End = "Rua";
+            endereco.Numero = "S/N";
+            endereco.Bairro = "Bairro";
+            endereco.Cidade = "Cidade";
+            endereco.CEP = "00000-000";
+            endereco.Complemento = "Complemento";
+
+            var sacado = new BoletoNet.Sacado("00.000.000/0000-00", "Empresa Teste", endereco);
+
+
+            // Boleto
             BoletoNet.Boleto boleto = new BoletoNet.Boleto(vencimento, 1700, "17-019", "18204", cedente);
 
+            var inst = new Instrucao_BancoBrasil(81, 5);
+            boleto.Instrucoes.Add(inst);
+
+            boleto.Sacado = sacado;
             boleto.NumeroDocumento = "18204";
+
+            
+
 
             var boletoBancario = new BoletoBancario();
 
@@ -36,6 +57,8 @@ namespace Boleto.Net.Testes.BancoBrasil
             boletoBancario.Cedente.Convenio = 2379;
 
             boletoBancario.Boleto.Valida();
+
+            Console.WriteLine(boletoBancario.MontaHtml());
 
             string nossoNumeroValido = "17/23790018204";
 

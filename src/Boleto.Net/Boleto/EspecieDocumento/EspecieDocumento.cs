@@ -145,6 +145,10 @@ namespace BoletoNet
                     case 4:
                         _IEspecieDocumento = new EspecieDocumento_Nordeste(codigoEspecie);
                         break;
+                    //136 Unicred
+                    case 136:
+                        _IEspecieDocumento = new EspecieDocumento_Unicred(codigoEspecie);
+                        break;
                     //655 - Votorantim
                     case 655:
                         _IEspecieDocumento = new EspecieDocumento_Votorantim(codigoEspecie);
@@ -268,7 +272,8 @@ namespace BoletoNet
                 { 4, new EspecieDocumento_Nordeste     ()  },
                 { 707, new EspecieDocumento_Daycoval   ()  },
                 { 637, new EspecieDocumento_Sofisa     ()  },
-                { 743, new EspecieDocumento_Semear     ()  }
+                { 743, new EspecieDocumento_Semear     ()  },
+                { 136, new EspecieDocumento_Unicred    ()  }
         };
     }
 }

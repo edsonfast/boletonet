@@ -113,6 +113,9 @@ namespace BoletoNet
                     case 21:
                         _IInstrucao = new Instrucao_Banestes();
                         break;
+                    case 136:
+                        _IInstrucao = new Instrucao_Unicred();
+                        break;
                     default:
                         throw new Exception("Código do banco não implementando: " + codigoBanco);
                 }
