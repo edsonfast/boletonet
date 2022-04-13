@@ -161,7 +161,7 @@ namespace BoletoNet {
                 dv_cmpLivre);
         }
 
-        #region Metodos de Geracao do Arquivo de Remessa
+        #region REMESSA
 
         #region HEADER
         public override string GerarHeaderRemessa(string numeroConvenio, Cedente cedente, TipoArquivo tipoArquivo, int numeroArquivoRemessa, Boleto boletos) {
@@ -510,14 +510,207 @@ namespace BoletoNet {
 
         #endregion
 
-
-
-
-
-
+        /// <summary>
+        /// Efetua as Validacoes dentro da classe Boleto, para garantir a geracao da remessa
+        /// </summary>
+        public override bool ValidarRemessa(TipoArquivo tipoArquivo, string numeroConvenio, IBanco banco, Cedente cedente, Boletos boletos, int numeroArquivoRemessa, out string mensagem) {
+            bool vRetorno = true;
+            string vMsg = string.Empty;
+            /// TODO - IMPLEMENTACAO PENDENTE
+            mensagem = vMsg;
+            return vRetorno;
+        }
 
         #endregion
 
+        #region RETORNO
+        private string LerMotivoRejeicao(string codigorejeicao) {
+            var rejeicao = String.Empty;
+
+            if (codigorejeicao.Length >= 2) {
+                #region LISTA DE MOTIVOS
+                List<String> ocorrencias = new List<string>();
+
+                ocorrencias.Add("00 - Sem Complemento a informar");
+                ocorrencias.Add("01 - Código do Banco Inválido");
+                ocorrencias.Add("04 - Código de Movimento não permitido para a carteira");
+                ocorrencias.Add("05 - Código de Movimento Inválido");
+                ocorrencias.Add("06 - Número de Inscrição do Beneficiário Inválido");
+                ocorrencias.Add("07 - Agência - Conta Inválida");
+                ocorrencias.Add("08 - Nosso Número Inválido");
+                ocorrencias.Add("09 - Nosso Número Duplicado");
+                ocorrencias.Add("10 - Carteira inválida");
+                ocorrencias.Add("12 - Tipo de Documento Inválido");
+                ocorrencias.Add("16 - Data de Vencimento Inválida");
+                ocorrencias.Add("17 - Data de Vencimento Anterior à Data de Emissão");
+                ocorrencias.Add("18 - Vencimento fora do Prazo de Operação");
+                ocorrencias.Add("20 - Valor do Título Inválido");
+                ocorrencias.Add("24 - Data de Emissão Inválida");
+                ocorrencias.Add("25 - Data de Emissão Posterior à data de Entrega");
+                ocorrencias.Add("26 - Código de juros inválido");
+                ocorrencias.Add("27 – Valor de juros inválido");
+                ocorrencias.Add("28 – Código de Desconto inválido");
+                ocorrencias.Add("29 – Valor de Desconto inválido");
+                ocorrencias.Add("30 - Alteração de Dados Rejeitada");
+                ocorrencias.Add("33 - Valor de Abatimento Inválido");
+                ocorrencias.Add("34 - Valor do Abatimento Maior ou Igual ao Valor do título");
+                ocorrencias.Add("45 - Nome do Pagador não informado");
+                ocorrencias.Add("46 - Número de Inscrição do Pagador Inválido");
+                ocorrencias.Add("47 - Endereço do Pagador Não Informado");
+                ocorrencias.Add("48 - CEP Inválido");
+                ocorrencias.Add("52 - Unidade Federativa Inválida");
+                ocorrencias.Add("57 – Código de Multa inválido");
+                ocorrencias.Add("58 – Data de Multa inválido");
+                ocorrencias.Add("59 – Valor / percentual de Multa inválido");
+                ocorrencias.Add("60 - Movimento para Título não Cadastrado");
+                ocorrencias.Add("63 - Entrada para Título já Cadastrado");
+                ocorrencias.Add("79 – Data de Juros inválida");
+                ocorrencias.Add("80 – Data de Desconto inválida");
+                ocorrencias.Add("86 - Seu Número Inválido");
+                ocorrencias.Add("A5 - Título Liquidado");
+                ocorrencias.Add("A8 - Valor do Abatimento Inválido para Cancelamento");
+                ocorrencias.Add("C0 – Sistema Intermitente – Entre em contato com sua Cooperativa");
+                ocorrencias.Add("C1 - Situação do título Aberto");
+                ocorrencias.Add("C3 - Status do Borderô Inválido");
+                ocorrencias.Add("C4 - Nome do Beneficiário Inválido");
+                ocorrencias.Add("C5 - Documento Inválido");
+                ocorrencias.Add("C6 - Instrução não Atualiza Cadastro do Título");
+                
+                #endregion
+
+                var ocorrencia = (from s in ocorrencias where s.Substring(0, 2) == codigorejeicao.Substring(0, 2) select s).FirstOrDefault();
+
+                if (ocorrencia != null)
+                    rejeicao = ocorrencia;
+            }
+
+            return rejeicao;
+        }
+
+        public override DetalheRetorno LerDetalheRetornoCNAB400(string registro) {
+            try {
+                EDI.Banco.TRegistroEDI_Unicred_Retorno reg = new TRegistroEDI_Unicred_Retorno();
+                //
+                reg.LinhaRegistro = registro;
+                reg.DecodificarLinha();
+
+                //Passa para o detalhe as propriedades de reg;
+                DetalheRetorno detalhe = new DetalheRetorno(registro);
+                //
+                detalhe.IdentificacaoDoRegistro = Utils.ToInt32(reg.Fixo1);
+                //TipoCobranca
+                //CodigoPagadorAgenciaBeneficiario
+                //detalhe.NomeSacado = reg.p;
+                detalhe.NossoNumeroComDV = reg.NossoNumero;
+                detalhe.NossoNumero = reg.NossoNumero.Substring(0, reg.NossoNumero.Length - 1); //Nosso Número sem o DV!
+                detalhe.DACNossoNumero = reg.NossoNumero.Substring(reg.NossoNumero.Length - 1); //DV do Nosso Numero
+                detalhe.CodigoOcorrencia = Utils.ToInt32(reg.CodigoDeMovimento);
+                int dataOcorrencia = Utils.ToInt32(reg.DataLiquidacao);
+                detalhe.DataOcorrencia = Utils.ToDateTime(dataOcorrencia.ToString("##-##-##"));
+
+                //Descrição da ocorrência
+                detalhe.DescricaoOcorrencia = new CodigoMovimento(136, detalhe.CodigoOcorrencia).Descricao;
+
+                detalhe.NumeroDocumento = reg.SeuNumero;
+
+                if (!String.IsNullOrEmpty(reg.DataDeVencimento)) {
+                    int dataVencimento = Utils.ToInt32(reg.DataDeVencimento);
+                    detalhe.DataVencimento = Utils.ToDateTime(dataVencimento.ToString("##-##-##"));
+                }
+                decimal valorTitulo = Convert.ToInt64(reg.ValorDoTitulo);
+                detalhe.ValorTitulo = valorTitulo / 100;
+              
+                //Abatimento Concedido sobre o Título (Valor Abatimento Concedido)
+                decimal valorAbatimento = Convert.ToUInt64(reg.ValorAbatimento);
+                detalhe.ValorAbatimento = valorAbatimento / 100;
+                
+                //Desconto Concedido (Valor Desconto Concedido)
+                decimal valorDesconto = Convert.ToUInt64(reg.ValorDesconto);
+                detalhe.Descontos = valorDesconto / 100;
+                
+                //Valor Pago
+                decimal valorPago = Convert.ToUInt64(reg.ValorRecebido);
+                detalhe.ValorPago = valorPago / 100;
+                
+                //Juros Mora
+                decimal jurosMora = Convert.ToUInt64(reg.JurosDeMora);
+                detalhe.JurosMora = jurosMora / 100;
+
+                decimal tarifa = Convert.ToUInt64(reg.ValorDaTarifa);
+                detalhe.TarifaCobranca = tarifa / 100;
+
+                int dataCredito = Utils.ToInt32(reg.DataProgramadaParaRepasse);
+                detalhe.DataCredito = Utils.ToDateTime(dataCredito.ToString("####-##-##"));
+
+                detalhe.NumeroSequencial = Utils.ToInt32(reg.SequencialDoRegistro);
+
+                //detalhe.Especie = reg.TipoDocumento; //Verificar Espécie de Documentos...
+                detalhe.OutrosCreditos = 0;
+                detalhe.OrigemPagamento = String.Empty;
+                //detalhe.MotivoCodigoOcorrencia = reg.MotivoOcorrencia;
+                //
+                detalhe.IOF = 0;
+                //Motivos das Rejeições para os Códigos de Ocorrência
+                if (detalhe.CodigoOcorrencia == 3) {
+                    detalhe.MotivosRejeicao = LerMotivoRejeicao(reg.ComplementoDoMovimento);
+                }
+
+                //Número do Cartório
+                detalhe.NumeroCartorio = 0;
+                //Número do Protocolo
+                detalhe.NumeroProtocolo = string.Empty;
+
+                detalhe.CodigoInscricao = 0;
+                detalhe.NumeroInscricao = string.Empty;
+                detalhe.Agencia = 0;
+                detalhe.Conta = header.Conta;
+                detalhe.DACConta = header.DACConta;
+
+                detalhe.NumeroControle = string.Empty;
+                detalhe.IdentificacaoTitulo = string.Empty;
+                //Banco Cobrador
+                detalhe.CodigoBanco = 0;
+                //Agência Cobradora
+                detalhe.AgenciaCobradora = 0;
+                //
+                return detalhe;
+            } catch (Exception ex) {
+                throw new Exception("Erro ao ler detalhe do arquivo de RETORNO / CNAB 400.", ex);
+            }
+        }
+
+        public override HeaderRetorno LerHeaderRetornoCNAB400(string registro) {
+            try {
+                header = new HeaderRetorno(registro);
+                header.TipoRegistro = Utils.ToInt32(registro.Substring(000, 1));
+                header.CodigoRetorno = Utils.ToInt32(registro.Substring(001, 1));
+                header.LiteralRetorno = registro.Substring(002, 7);
+                header.CodigoServico = Utils.ToInt32(registro.Substring(009, 2));
+                header.LiteralServico = registro.Substring(011, 8);
+
+                header.Agencia = Utils.ToInt32(registro.Substring(026, 5));
+
+                string _conta = registro.Substring(031, 9);
+                header.Conta = Utils.ToInt32(_conta.Substring(0, _conta.Length - 1));
+                header.DACConta = Utils.ToInt32(_conta.Substring(_conta.Length - 1));
+
+                //header.ComplementoRegistro2 = registro.Substring(031, 14);
+                header.CodigoBanco = Utils.ToInt32(registro.Substring(076, 3));
+                header.NomeBanco = registro.Substring(079, 15);
+                header.DataGeracao = Utils.ToDateTime(Utils.ToInt32(registro.Substring(094, 6)).ToString("##-##-##"));
+                header.NumeroSequencialArquivoRetorno = Utils.ToInt32(registro.Substring(100, 7));
+                //header.Versao = registro.Substring(390, 5);
+                //header.NumeroSequencial = Utils.ToInt32(registro.Substring(394, 6));
+
+                return header;
+            } catch (Exception ex) {
+                throw new Exception("Erro ao ler header do arquivo de RETORNO / CNAB 400.", ex);
+            }
+        }
+        #endregion
+
+
+        #region UTIL
         /// <summary>
         /// Calcula o digito do Nosso Numero
         /// </summary>
@@ -620,16 +813,9 @@ namespace BoletoNet {
 
             return d;
         }
+        #endregion
 
-        /// <summary>
-        /// Efetua as Validacoes dentro da classe Boleto, para garantir a geracao da remessa
-        /// </summary>
-        public override bool ValidarRemessa(TipoArquivo tipoArquivo, string numeroConvenio, IBanco banco, Cedente cedente, Boletos boletos, int numeroArquivoRemessa, out string mensagem) {
-            bool vRetorno = true;
-            string vMsg = string.Empty;
-            /// TODO - IMPLEMENTACAO PENDENTE
-            mensagem = vMsg;
-            return vRetorno;
-        }
+
+
     }
 }

@@ -192,7 +192,7 @@ namespace Boleto.Net.Testes.BancoUnicred {
         public void Unicred_Carteira_09_ArquivoRetorno400() {
             ArquivoRetornoCNAB400 ret = new ArquivoRetornoCNAB400();
 
-            var arquivo = string.Empty; //@"C:\Temp\2017-Julho-CB180701_009_CB_09_433920_20170718041844_00152068-7.RET";
+            var arquivo = @"C:\Temp\UNICRED.RET";
 
             if (arquivo != string.Empty) {
                 using (FileStream fs = new FileStream(arquivo, FileMode.Open, FileAccess.Read)) {

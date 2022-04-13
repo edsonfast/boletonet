@@ -103,6 +103,10 @@ namespace BoletoNet
                     case 85:
                         _ICodigoMovimento = new CodigoMovimento_Cecred(codigoMovimento);
                         break;
+                    // 136 - UNICRED
+                    case 136:
+                        _ICodigoMovimento = new CodigoMovimento_Unicred(codigoMovimento);
+                        break;
                     case 748:
                         _ICodigoMovimento = new CodigoMovimento_Sicredi(codigoMovimento);
                         break;

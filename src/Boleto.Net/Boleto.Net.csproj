@@ -108,6 +108,7 @@
     <Compile Include="Boleto\CodigoMovimento\CodigoMovimento_Itau.cs" />
     <Compile Include="Boleto\CodigoMovimento\CodigoMovimento_Sicoob.cs" />
     <Compile Include="Boleto\CodigoMovimento\CodigoMovimento_Sicredi.cs" />
+    <Compile Include="Boleto\CodigoMovimento\CodigoMovimento_Unicred.cs" />
     <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Banestes.cs" />
     <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Semear.cs" />
     <Compile Include="Boleto\EspecieDocumento\EspecieDocumento_Cecred.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="EDI\Banco\TRegistroEDI_BancoBrasil_Retorno.cs" />
     <Compile Include="EDI\Banco\TRegistroEDI_Caixa_Retorno.cs" />
     <Compile Include="EDI\Banco\TRegistroEDI_Banrisul_Retorno.cs" />
+    <Compile Include="EDI\Banco\TRegistroEDI_Unicred_Retorno.cs" />
     <Compile Include="EDI\EDIBasicTypes.cs" />
     <Compile Include="EDI\EDIFile.cs" />
     <Compile Include="Enums\Bancos.cs" />
