@@ -951,7 +951,13 @@ namespace BoletoNet
                 // 1 = Banco emite e Processa o registro
                 // 2 = Cliente emite e o Banco somente processa
                 //Condição para Emissão da Papeleta de Cobrança(1, N)
-                _detalhe += boleto.ApenasRegistrar ? "2" : "1";
+                //_detalhe += boleto.ApenasRegistrar ? "2" : "1";
+                if (boleto.TipoEmissao == Enums.TipoEmissao.EmissaoPeloCedente) {
+                    _detalhe += "2";
+                } else {
+                    _detalhe += "1";
+                }
+                    
                 //Ident. se emite papeleta para Débito Automático (1, A)
                 _detalhe += "N";
                 //Identificação da Operação do Banco (10, A) Em Branco

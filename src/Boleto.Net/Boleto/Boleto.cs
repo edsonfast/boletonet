@@ -1,3 +1,5 @@
+ï»¿using BoletoNet.Enums;
+
 namespace BoletoNet
 {
 	using System;
@@ -19,7 +21,7 @@ namespace BoletoNet
 		private string _variacaoCarteira = string.Empty;
 		private string _nossoNumero = string.Empty;
 		private string _digitoNossoNumero = string.Empty;
-        private bool _apenasRegistrar = false;
+        private TipoEmissao _tipoEmissao = Enums.TipoEmissao.EmissaoPeloCedente;
 		private DateTime _dataVencimento;
 		private DateTime _dataDocumento;
 		private DateTime _dataProcessamento;
@@ -27,7 +29,7 @@ namespace BoletoNet
 		private int _numeroParcela;
 		private decimal _valorBoleto;
 		private decimal _valorCobrado;
-		private string _localPagamento = "Até o vencimento, preferencialmente no ";
+		private string _localPagamento = "AtÃ© o vencimento, preferencialmente no ";
 		private int _quantidadeMoeda = 1;
 		private string _valorMoeda = string.Empty;
 		private IList<IInstrucao> _instrucoes = new List<IInstrucao>();
@@ -64,7 +66,7 @@ namespace BoletoNet
 		private DateTime _dataOutrosAcrescimos;
 		private DateTime _dataOutrosDescontos;
         private DateTime _dataLimitePagamento;
-        private short _percentualIOS;
+		private short _percentualIOS;
         private short _modalidadeCobranca = 0;
         private short _numeroDiasBaixa = 0;
 		private string _numeroControle;
@@ -73,7 +75,7 @@ namespace BoletoNet
         private string _tipoImpressao = "A";
 		private Remessa _remessa;
 
-		private ObservableCollection<GrupoDemonstrativo> _demonstrativos;
+        private ObservableCollection<GrupoDemonstrativo> _demonstrativos;
 
 		#endregion
 
@@ -165,7 +167,7 @@ namespace BoletoNet
 		}
 
 		/// <summary> 
-		/// Retorna a Variação da carteira.
+		/// Retorna a VariaÃ§Ã£o da carteira.
 		/// </summary>
 		public string VariacaoCarteira
 		{
@@ -199,6 +201,19 @@ namespace BoletoNet
 			get { return this._valorCobrado; }
 			set { this._valorCobrado = value; }
 		}
+
+
+		/// <summary> 
+		/// Retorna o valor utilizado no cod. de barras 
+		/// </summary>
+		/// <remarks>
+        /// Se o valor ValorCobrado estiver preenchido retorna o ValorCobrado,
+        /// caso contrÃ¡rio retorna o ValorBoleto.
+		/// </remarks>
+		public decimal ValorCodBarra
+        {
+			get { return (this.ValorCobrado > 0) ? this.ValorCobrado : this.ValorBoleto; }
+        }
 
 		/// <summary> 
 		/// Retorna o campo para a 1 linha da instrucao.
@@ -300,7 +315,7 @@ namespace BoletoNet
         }
 
 		/// <summary> 
-		/// Recupara o número do documento
+		/// Recupara o nÃºmero do documento
 		/// </summary>        
 		public string NumeroDocumento
 		{
@@ -309,7 +324,7 @@ namespace BoletoNet
 		}
 
 		/// <summary> 
-		/// Recupara o digito nosso número 
+		/// Recupara o digito nosso nÃºmero 
 		/// </summary>        
 		public string DigitoNossoNumero
 		{
@@ -318,7 +333,7 @@ namespace BoletoNet
 		}
 
 		/// <summary> 
-		/// Recupara o nosso número 
+		/// Recupara o nosso nÃºmero 
 		/// </summary>        
 		public string NossoNumero
 		{
@@ -326,14 +341,14 @@ namespace BoletoNet
 			set { this._nossoNumero = value; }
 		}
 
-        /// <summary> 
-        /// Condição para Emissão da Papeleta de Cobrança
-        /// 1 = Banco emite e Processa o registro. 2 = Cliente emite e o Banco somente processa o registro
-        /// </summary>        
-        public bool ApenasRegistrar
+		/// <summary> 
+		/// CondiÃ§Ã£o para EmissÃ£o da Papeleta de CobranÃ§a
+		/// 0 = Cliente emite e o Banco somente processa o registro, 1 = Banco emite e Processa o registro. 
+		/// </summary>        
+		public TipoEmissao TipoEmissao
         {
-            get { return _apenasRegistrar; }
-            set { _apenasRegistrar = value; }
+            get { return _tipoEmissao; }
+            set { _tipoEmissao = value; }
         }
 
 		/// <summary> 
@@ -378,8 +393,8 @@ namespace BoletoNet
 		}
 
         /// <summary> 
-		/// Retorna o valor do desconto por dia de antecipação do titulo.
-        /// Esse campo é utilizado no banco sicredi posição 083-092 registro detalhe remessa
+		/// Retorna o valor do desconto por dia de antecipaÃ§Ã£o do titulo.
+        /// Esse campo Ã© utilizado no banco sicredi posiÃ§Ã£o 083-092 registro detalhe remessa
 		/// </summary>
 		public decimal ValorDescontoAntecipacao
         {
@@ -398,7 +413,7 @@ namespace BoletoNet
 
 		/// <summary>
 		/// Dados do avalista.
-		/// Este campo é necessário para correspondentes bancários, como 
+		/// Este campo Ã© necessÃ¡rio para correspondentes bancÃ¡rios, como 
 		/// por exemplo o Banco Daycoval.
 		/// O avalista deve ser exibido para que estes bancos homologuem.
 		/// </summary>
@@ -433,7 +448,7 @@ namespace BoletoNet
 
 
         /// <summary> 
-		/// Código de Juros de mora (1 = ao dia, 2 = ao mes)
+		/// CÃ³digo de Juros de mora (1 = ao dia, 2 = ao mes)
 		/// </summary>  
         public string CodJurosMora
         {
@@ -442,7 +457,7 @@ namespace BoletoNet
         }
 
         /// <summary>
-        /// Caso a empresa tenha no convênio Juros permanentes cadastrados
+        /// Caso a empresa tenha no convÃªnio Juros permanentes cadastrados
         /// </summary>
         public bool JurosPermanente
 		{
@@ -487,7 +502,7 @@ namespace BoletoNet
 		}
 
 		/// <summary> 
-		/// Outros Acréscimos
+		/// Outros AcrÃ©scimos
 		/// </summary>  
 		public decimal OutrosAcrescimos
 		{
@@ -532,7 +547,7 @@ namespace BoletoNet
 		}
 
 		/// <summary> 
-		/// Data de Outros Acréscimos
+		/// Data de Outros AcrÃ©scimos
 		/// </summary>  
 		public DateTime DataOutrosAcrescimos
 		{
@@ -552,22 +567,23 @@ namespace BoletoNet
         /// <summary> 
         /// Data de Outros Descontos
         /// </summary>  
-        public DateTime DataLimitePagamento {
+        public DateTime DataLimitePagamento
+        {
             get { return _dataLimitePagamento; }
             set { _dataLimitePagamento = value; }
         }
 
-        /// <summary> 
-        /// Retorna o tipo da modalidade
-        /// </summary>
-        public string TipoModalidade
+		/// <summary> 
+		/// Retorna o tipo da modalidade
+		/// </summary>
+		public string TipoModalidade
 		{
 			get { return this._tipoModalidade; }
 			set { this._tipoModalidade = value; }
 		}
 
         /// <summary> 
-		/// Tipo de Impressão Sicredi "A" = Boleto/ "B" = Carne
+		/// Tipo de ImpressÃ£o Sicredi "A" = Boleto/ "B" = Carne
 		/// </summary>
         public string TipoImpressao
         {
@@ -584,7 +600,7 @@ namespace BoletoNet
 		}
 
         /// <summary> 
-        /// C006 - Retorna a modalidade de cobrança/código carteira 1-Cobrança Simples 2-Cobrança Vinculada 3-Cobrança Caucionada 4-Cobrança Descontada 5-Cobrança Vendor 
+        /// C006 - Retorna a modalidade de cobranÃ§a/cÃ³digo carteira 1-CobranÃ§a Simples 2-CobranÃ§a Vinculada 3-CobranÃ§a Caucionada 4-CobranÃ§a Descontada 5-CobranÃ§a Vendor 
         /// </summary>
         public short ModalidadeCobranca
         {
@@ -593,7 +609,7 @@ namespace BoletoNet
         }
 
         /// <summary> 
-        /// Número de dias para Baixa/Devolução
+        /// NÃºmero de dias para Baixa/DevoluÃ§Ã£o
         /// </summary>
         public short NumeroDiasBaixa
         {
@@ -601,7 +617,7 @@ namespace BoletoNet
             set { this._numeroDiasBaixa = value; }
         }
         /// <summary>
-        /// Retorna os Parâmetros utilizados na geração da Remessa para o Boleto
+        /// Retorna os ParÃ¢metros utilizados na geraÃ§Ã£o da Remessa para o Boleto
         /// </summary>
         public Remessa Remessa
 		{
@@ -610,7 +626,7 @@ namespace BoletoNet
 		}
 
         /// <summary> 
-        /// Recupara o número do Controle de participante.
+        /// Recupara o nÃºmero do Controle de participante.
         /// </summary>        
         public string NumeroControle
         {
@@ -627,25 +643,25 @@ namespace BoletoNet
 
         public DateTime? DataDescontoAntecipacao3 { get; set; }
         public decimal? ValorDescontoAntecipacao3 { get; set; }
-
+        
         #endregion Properties
 
         public void Valida()
 		{
-			// Validações básicas, caso ainda tenha implementada na classe do banco.ValidaBoleto()
+			// ValidaÃ§Ãµes bÃ¡sicas, caso ainda tenha implementada na classe do banco.ValidaBoleto()
 			if (this.Cedente == null)
-				throw new Exception("Cedente não cadastrado.");
+				throw new Exception("Cedente nÃ£o cadastrado.");
 
 			// Atribui o nome do banco ao local de pagamento
 			// Comentada por duplicidade no nome do banco
 			////this.LocalPagamento += this.Banco.Nome + string.Empty;
 
-			// Verifica se data do processamento é valida
+			// Verifica se data do processamento Ã© valida
 			// if (this.DataProcessamento.ToString("dd/MM/yyyy") == "01/01/0001")
 			if (this.DataProcessamento == DateTime.MinValue) // diegomodolo (diego.ribeiro@nectarnet.com.br)
 				this.DataProcessamento = DateTime.Now;
 
-			// Verifica se data do documento é valida
+			// Verifica se data do documento Ã© valida
 			////if (this.DataDocumento.ToString("dd/MM/yyyy") == "01/01/0001")
 			if (this.DataDocumento == DateTime.MinValue) // diegomodolo (diego.ribeiro@nectarnet.com.br)
 				this.DataDocumento = DateTime.Now;
@@ -664,7 +680,7 @@ namespace BoletoNet
 			}
 			catch (Exception ex)
 			{
-				throw new Exception("Erro durante a formatação dos campos.", ex);
+				throw new Exception("Erro durante a formataÃ§Ã£o dos campos.", ex);
 			}
 		}
 	}

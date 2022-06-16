@@ -216,6 +216,7 @@
     <Compile Include="Enums\Extensions.cs" />
     <Compile Include="Enums\IsencaoCpmf.cs" />
     <Compile Include="Enums\TipoComplementoLancamento.cs" />
+    <Compile Include="Enums\TipoEmissao.cs" />
     <Compile Include="Enums\TipoLancamento.cs" />
     <Compile Include="Enums\TipoOcorrenciaRetorno.cs" />
     <Compile Include="Enums\TipoPessoa.cs" />
