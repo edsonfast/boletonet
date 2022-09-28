@@ -554,7 +554,7 @@ namespace BoletoNet
                             throw new ArgumentNullException("Endereço do Cedente");
 
                         string Numero = !string.IsNullOrEmpty(Cedente.Endereco.Numero) ? Cedente.Endereco.Numero + ", " : "";
-                        enderecoCedente = string.Concat(Cedente.Endereco.End, " , ", Numero);
+                        enderecoCedente = string.Concat(Cedente.Endereco.End, ", ", Numero);
 
                         if (Cedente.Endereco.CEP == string.Empty)
                         {
