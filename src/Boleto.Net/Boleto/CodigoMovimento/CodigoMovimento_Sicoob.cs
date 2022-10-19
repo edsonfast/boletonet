@@ -20,16 +20,18 @@ namespace BoletoNet
         LiquidacaoAposBaixa = 17,                                     //17 Liquidação após baixa
         ConfirmacaoDeRecebimentoDeInstrucaoDeProtesto = 19,           //19 Confirmação de recebimento de instrução de protesto
         ConfirmacaoDeRecebimentoDeInstrucaoDeSustacaoDeProtesto = 20, //20 Confirmação de recebimento de instrução de sustação de protesto
-        EntradaDeTituloEmCartorio = 23,                               //23 Entrada de título em cartório
+        EntradaDeTituloEmCartorio = 23,                               //23 Entrada de título em cartório        
         EntradaRejeitadaPorCEPIrregular = 24,                         //24 Entrada rejeitada por CEP irregular
+        ProtestadoEBaixado = 25,                                      //25 Protestado e Baixado (Baixa por Ter Sido Protestado)
+        InstrucaoRejeitada = 26,                                      //26 instrucao rejeitada
         BaixaRejeitada = 27,                                          //27 Baixa rejeitada
         Tarifa = 28,                                                  //28 Tarifa
         RejeicaoDoPagador = 29,                                       //29 Rejeição do pagador
         AlteracaoRejeitada = 30,                                      //30 Alteração rejeitada
-        InstrucaoRejeitada = 32,                                      //32 Instrução rejeitada
         ConfirmacaoDePedidoDeAlteracaoDeOutrosDados = 33,             //33 Confirmação de pedido de alteração de outros dados
         RetiradoDeCartorioEManutencaoEmCarteira = 34,                 //34 Retirado de cartório e manutenção em carteira
-        AceiteDoPagador = 35                                          //35 Aceite do pagador
+        AceiteDoPagador = 35,                                         //35 Aceite do pagador
+        ConfirmacaoDeInstrucaoDeTransferenciaDeCarteira = 48          //48 Confirmação de instrução de transferência de carteira/modalidade de cobrança
     }
 
     public class CodigoMovimento_Sicoob : AbstractCodigoMovimento, ICodigoMovimento
@@ -74,7 +76,7 @@ namespace BoletoNet
         }
 
         #region Dicionários
-        private Dictionary<EnumCodigoMovimento_Sicoob, TipoOcorrenciaRetorno> correspondentesFebraban = new Dictionary<EnumCodigoMovimento_Sicoob, TipoOcorrenciaRetorno>()
+        private readonly Dictionary<EnumCodigoMovimento_Sicoob, TipoOcorrenciaRetorno> correspondentesFebraban = new Dictionary<EnumCodigoMovimento_Sicoob, TipoOcorrenciaRetorno>()
         {
             { EnumCodigoMovimento_Sicoob.EntradaConfirmada                                      ,TipoOcorrenciaRetorno.EntradaConfirmada },
             { EnumCodigoMovimento_Sicoob.EntradaRejeitada                                       ,TipoOcorrenciaRetorno.EntradaRejeitada },
@@ -94,10 +96,11 @@ namespace BoletoNet
             { EnumCodigoMovimento_Sicoob.InstrucaoRejeitada                                     ,TipoOcorrenciaRetorno.InstrucaoRejeitada },
             { EnumCodigoMovimento_Sicoob.ConfirmacaoDePedidoDeAlteracaoDeOutrosDados            ,TipoOcorrenciaRetorno.ConfirmacaoDaAlteracaoDosDadosDoRateioDeCredito },
             { EnumCodigoMovimento_Sicoob.RetiradoDeCartorioEManutencaoEmCarteira                ,TipoOcorrenciaRetorno.ConfirmacaoDoCancelamentoDosDadosDoRateioDeCredito },
-            { EnumCodigoMovimento_Sicoob.TituloEmSer                                            ,TipoOcorrenciaRetorno.TitulosEmCarteira }
+            { EnumCodigoMovimento_Sicoob.TituloEmSer                                            ,TipoOcorrenciaRetorno.TitulosEmCarteira },
+            { EnumCodigoMovimento_Sicoob.ProtestadoEBaixado                                     ,TipoOcorrenciaRetorno.ProtestadoEBaixado},
         };
 
-        private Dictionary<EnumCodigoMovimento_Sicoob, string> descricoes = new Dictionary<EnumCodigoMovimento_Sicoob, string>()
+        private readonly Dictionary<EnumCodigoMovimento_Sicoob, string> descricoes = new Dictionary<EnumCodigoMovimento_Sicoob, string>()
         {
             { EnumCodigoMovimento_Sicoob.EntradaConfirmada                                       , "Entrada confirmada"                                             },
             { EnumCodigoMovimento_Sicoob.EntradaRejeitada                                        , "Entrada rejeitada"                                              },
@@ -113,6 +116,7 @@ namespace BoletoNet
             { EnumCodigoMovimento_Sicoob.ConfirmacaoDeRecebimentoDeInstrucaoDeSustacaoDeProtesto , "Confirmação de recebimento de instrução de sustação de protesto"},
             { EnumCodigoMovimento_Sicoob.EntradaDeTituloEmCartorio                               , "Entrada de título em cartório"                                  },
             { EnumCodigoMovimento_Sicoob.EntradaRejeitadaPorCEPIrregular                         , "Entrada rejeitada por CEP irregular"                            },
+            { EnumCodigoMovimento_Sicoob.ProtestadoEBaixado                                      , "Protestado e Baixado (Baixa por Ter Sido Protestado)"           },
             { EnumCodigoMovimento_Sicoob.BaixaRejeitada                                          , "Baixa rejeitada"                                                },
             { EnumCodigoMovimento_Sicoob.Tarifa                                                  , "Tarifa"                                                         },
             { EnumCodigoMovimento_Sicoob.RejeicaoDoPagador                                       , "Rejeição do pagador"                                            },
@@ -121,7 +125,8 @@ namespace BoletoNet
             { EnumCodigoMovimento_Sicoob.ConfirmacaoDePedidoDeAlteracaoDeOutrosDados             , "Confirmação de pedido de alteração de outros dados"             },
             { EnumCodigoMovimento_Sicoob.RetiradoDeCartorioEManutencaoEmCarteira                 , "Retirado de cartório e manutenção em carteira"                  },
             { EnumCodigoMovimento_Sicoob.AceiteDoPagador                                         , "Aceite do pagador" },
-            { EnumCodigoMovimento_Sicoob.TituloEmSer                                             , "Título em Ser" }
+            { EnumCodigoMovimento_Sicoob.TituloEmSer                                             , "Título em Ser" },
+            { EnumCodigoMovimento_Sicoob.ConfirmacaoDeInstrucaoDeTransferenciaDeCarteira         , "Confirmação de instrução de transferência de carteira/modalidade de cobrança" },
         };
         #endregion
     }
