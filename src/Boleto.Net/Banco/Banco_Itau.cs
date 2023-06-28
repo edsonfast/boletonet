@@ -1653,7 +1653,7 @@ namespace BoletoNet
 
                 detalhe.CodigoLiquidacao = registro.Substring(392, 2);
                 detalhe.NumeroSequencial = Utils.ToInt32(registro.Substring(394, 6));
-                detalhe.ValorPago = detalhe.ValorPrincipal;
+                //detalhe.ValorPago = detalhe.ValorPrincipal;
 
                 // A correspondência de Valor Pago no RETORNO ITAÚ é o Valor Principal (Valor lançado em Conta Corrente - Conforme Manual)
                 // A determinação se Débito ou Crédito deverá ser feita nos aplicativos por se tratar de personalização.
@@ -1669,8 +1669,15 @@ namespace BoletoNet
                 //}
 
 
-                //// Valor Pago é a soma do Valor Principal (Valor que entra na conta) + Tarifa de Cobrança
-                //detalhe.ValorPago = detalhe.ValorPrincipal + detalhe.TarifaCobranca;
+                // Valor Pago é a soma do Valor Principal (Valor que entra na conta) + Tarifa de Cobrança
+                if (detalhe.CodigoOcorrencia == 6) // 06-Liquidação normal
+                {
+                    detalhe.ValorPago = detalhe.ValorPrincipal + detalhe.TarifaCobranca;
+                } else
+                {
+                    detalhe.ValorPago = detalhe.ValorPrincipal;
+                }
+                
 
                 return detalhe;
             }
