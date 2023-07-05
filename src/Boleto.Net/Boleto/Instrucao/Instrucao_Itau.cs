@@ -73,7 +73,7 @@ namespace BoletoNet
                 {
                     case EnumInstrucoes_Itau.Protestar:
                         this.Codigo = (int)EnumInstrucoes_Itau.Protestar;
-                        this.Descricao = "Protestar após 5 dias úteis.";
+                        this.Descricao = "Protestar após " + nrDias + " dias corridos do vencimento";
                         break;
                     case EnumInstrucoes_Itau.NaoProtestar:
                         this.Codigo = (int)EnumInstrucoes_Itau.NaoProtestar;
