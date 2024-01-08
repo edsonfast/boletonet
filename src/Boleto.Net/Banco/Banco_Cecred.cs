@@ -567,7 +567,7 @@ namespace BoletoNet {
                         case EnumInstrucoes_Cecred.PedidoProtesto:
                             // '1' = Protestar Dias Corridos (No Sistema Ailos o prazo para protesto é de 05 a 15).
                             // '2' = Negativação de boletos via Serasa (No Sistema Ailos o prazo para protesto é de 05 a 15).
-                            vInstrucao1 = "2"; 
+                            vInstrucao1 = boleto.ModalidadeCobranca == 1 ? "1" : "2"; 
                             vInstrucao2 = Utils.FitStringLength(instrucao.QuantidadeDias.ToString(), 2, 2, '0', 0, true, true, true);
                             break;
                         case EnumInstrucoes_Cecred.SustarProtestoBaixarTitulo:
