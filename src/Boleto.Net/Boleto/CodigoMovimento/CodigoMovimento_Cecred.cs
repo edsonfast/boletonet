@@ -31,7 +31,71 @@ namespace BoletoNet
         DebitoTarifas = 28,
         AlteracaoDadosRejeitada = 30,
         AlteracaoDadosSacado = 42,
-        InstrucaoCancelarProtesto = 46
+        InstrucaoCancelarProtesto = 46,
+        /// <summary>
+        /// ‘51’ = Título DDA reconhecido pelo Pagador (quando o pagador aceitar o boleto depois de ter recusado)
+        /// </summary>
+        TituloDDAReconhecidoPeloPagador = 51,
+
+        /// <summary>
+        /// ‘52’ = Título DDA não reconhecido pelo Pagador
+        /// </summary>
+        TituloDDANaoReconhecidoPeloPagador = 52,
+
+        /// <summary>
+        /// ‘76’ = Liquidação CEE (boleto emitido na modalidade Cooperativa Emite e Expede)
+        /// </summary>
+        LiquidacaoCCE = 76,
+
+        /// <summary>
+        /// ‘77’ = Liquidação após Baixa ou Liquidação Título Não Registrado CEE (boleto emitido na modalidade Cooperativa Emite e Expede)
+        /// </summary>
+        LiquidacaoAposBaixaOuNaoRegistrado = 77,
+
+        /// <summary>
+        /// ‘89’ = Rejeição cartorária (Visualizar motivo na última página deste manual)
+        /// </summary>
+        RejeicaoCartoraria = 89,
+
+        /// <summary>
+        /// ‘91’ = Título em aberto não enviado ao pagador
+        /// </summary>
+        TituloEmAbertoNaoEnviado = 91,
+
+        /// <summary>
+        /// ‘92’ = Inconsistência Negativação Serasa
+        /// </summary>
+        InconsistenciaNegativacaoSerasa = 92,
+
+        /// <summary>
+        /// ‘93’ = Incluir Serasa
+        /// </summary>
+        IncluirSerasa = 93,
+
+        /// <summary>
+        /// ‘94’ = Excluir Serasa
+        /// </summary>
+        ExcluirSerasa = 94,
+
+        /// <summary>
+        /// ‘95’ = Instrução de SMS
+        /// </summary>
+        InstrucaoSMS = 95,
+
+        /// <summary>
+        /// ‘96’ = Cancelamento Instrução SMS
+        /// </summary>
+        CancelamentoInstrucaoSMS = 96,
+
+        /// <summary>
+        /// ‘97’ = Confirmação de instrução automática de protesto
+        /// </summary>
+        ConfirmacaoDeInstrucaoAutoProtesto = 97,
+
+        /// <summary>
+        /// ‘98’ = Excluir Protesto com carta de anuência
+        /// </summary>
+        ExcluirProtestoComCartaAnuencia = 98,
     }
 
     #endregion 
@@ -170,6 +234,58 @@ namespace BoletoNet
                         this.Codigo = (int)EnumCodigoMovimento_Cecred.InstrucaoCancelarProtesto;
                         this.Descricao = "Instrução para cancelar protesto confirmada";
                         break;
+                    case EnumCodigoMovimento_Cecred.TituloDDAReconhecidoPeloPagador:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.TituloDDAReconhecidoPeloPagador;
+                        this.Descricao = "Título DDA reconhecido pelo Pagador (quando o pagador aceitar o boleto depois de ter recusado)";
+                        break;
+                    case EnumCodigoMovimento_Cecred.TituloDDANaoReconhecidoPeloPagador:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.TituloDDANaoReconhecidoPeloPagador;
+                        this.Descricao = "Título DDA não reconhecido pelo Pagador";
+                        break;
+                    case EnumCodigoMovimento_Cecred.LiquidacaoCCE:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.LiquidacaoCCE;
+                        this.Descricao = "Liquidação CEE (boleto emitido na modalidade Cooperativa Emite e Expede)";
+                        break;
+                    case EnumCodigoMovimento_Cecred.LiquidacaoAposBaixaOuNaoRegistrado:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.LiquidacaoAposBaixaOuNaoRegistrado;
+                        this.Descricao = "Liquidação após Baixa ou Liquidação Título Não Registrado CEE (boleto emitido na modalidade Cooperativa Emite e Expede)";
+                        break;
+                    case EnumCodigoMovimento_Cecred.RejeicaoCartoraria:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.RejeicaoCartoraria;
+                        this.Descricao = "Rejeição cartorária (Visualizar motivo na última página deste manual)";
+                        break;
+                    case EnumCodigoMovimento_Cecred.TituloEmAbertoNaoEnviado:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.TituloEmAbertoNaoEnviado;
+                        this.Descricao = "Título em aberto não enviado ao pagador";
+                        break;
+                    case EnumCodigoMovimento_Cecred.InconsistenciaNegativacaoSerasa:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.InconsistenciaNegativacaoSerasa;
+                        this.Descricao = "Inconsistência Negativação Serasa";
+                        break;
+                    case EnumCodigoMovimento_Cecred.IncluirSerasa:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.IncluirSerasa;
+                        this.Descricao = "Incluir Serasa";
+                        break;
+                    case EnumCodigoMovimento_Cecred.ExcluirSerasa:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.ExcluirSerasa;
+                        this.Descricao = "Excluir Serasa";
+                        break;
+                    case EnumCodigoMovimento_Cecred.InstrucaoSMS:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.InstrucaoSMS;
+                        this.Descricao = "Instrução de SMS";
+                        break;
+                    case EnumCodigoMovimento_Cecred.CancelamentoInstrucaoSMS:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.CancelamentoInstrucaoSMS;
+                        this.Descricao = "Cancelamento Instrução SMS";
+                        break;
+                    case EnumCodigoMovimento_Cecred.ConfirmacaoDeInstrucaoAutoProtesto:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.ConfirmacaoDeInstrucaoAutoProtesto;
+                        this.Descricao = "Confirmação de instrução automática de protesto";
+                        break;
+                    case EnumCodigoMovimento_Cecred.ExcluirProtestoComCartaAnuencia:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.ExcluirProtestoComCartaAnuencia;
+                        this.Descricao = "Excluir Protesto com carta de anuência";
+                        break;
                     default:
                         this.Codigo = 0;
                         this.Descricao = "( Selecione )";
@@ -285,6 +401,58 @@ namespace BoletoNet
                         this.Codigo = (int)EnumCodigoMovimento_Cecred.InstrucaoCancelarProtesto;
                         this.Descricao = "Instrução para cancelar protesto confirmada";
                         break;
+                    case 51:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.TituloDDAReconhecidoPeloPagador;
+                        this.Descricao = "Título DDA reconhecido pelo Pagador (quando o pagador aceitar o boleto depois de ter recusado)";
+                        break;
+                    case 52:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.TituloDDANaoReconhecidoPeloPagador;
+                        this.Descricao = "Título DDA não reconhecido pelo Pagador";
+                        break;
+                    case 76:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.LiquidacaoCCE;
+                        this.Descricao = "Liquidação CEE (boleto emitido na modalidade Cooperativa Emite e Expede)";
+                        break;
+                    case 77:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.LiquidacaoAposBaixaOuNaoRegistrado;
+                        this.Descricao = "Liquidação após Baixa ou Liquidação Título Não Registrado CEE (boleto emitido na modalidade Cooperativa Emite e Expede)";
+                        break;
+                    case 89:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.RejeicaoCartoraria;
+                        this.Descricao = "Rejeição cartorária (Visualizar motivo na última página deste manual)";
+                        break;
+                    case 91:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.TituloEmAbertoNaoEnviado;
+                        this.Descricao = "Título em aberto não enviado ao pagador";
+                        break;
+                    case 92:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.InconsistenciaNegativacaoSerasa;
+                        this.Descricao = "Inconsistência Negativação Serasa";
+                        break;
+                    case 93:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.IncluirSerasa;
+                        this.Descricao = "Incluir Serasa";
+                        break;
+                    case 94:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.ExcluirSerasa;
+                        this.Descricao = "Excluir Serasa";
+                        break;
+                    case 95:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.InstrucaoSMS;
+                        this.Descricao = "Instrução de SMS";
+                        break;
+                    case 96:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.CancelamentoInstrucaoSMS;
+                        this.Descricao = "Cancelamento Instrução SMS";
+                        break;
+                    case 97:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.ConfirmacaoDeInstrucaoAutoProtesto;
+                        this.Descricao = "Confirmação de instrução automática de protesto";
+                        break;
+                    case 98:
+                        this.Codigo = (int)EnumCodigoMovimento_Cecred.ExcluirProtestoComCartaAnuencia;
+                        this.Descricao = "Excluir Protesto com carta de anuência";
+                        break;
                     default:
                         this.Codigo = 0;
                         this.Descricao = "( Selecione )";
@@ -330,7 +498,9 @@ namespace BoletoNet
             { EnumCodigoMovimento_Cecred.DebitoTarifas                                         ,TipoOcorrenciaRetorno.DebitoDeTarifasCustas },
             { EnumCodigoMovimento_Cecred.AlteracaoDadosRejeitada                               ,TipoOcorrenciaRetorno.AlteracaoDeDadosRejeitada                                },
             { EnumCodigoMovimento_Cecred.AlteracaoDadosSacado                                  ,TipoOcorrenciaRetorno.ConfirmacaoDaAlteracaoDosdadosDoPagador },
-            { EnumCodigoMovimento_Cecred.InstrucaoCancelarProtesto                             ,TipoOcorrenciaRetorno.InstrucaoParacancelarProtestoConfirmada }
+            { EnumCodigoMovimento_Cecred.InstrucaoCancelarProtesto                             ,TipoOcorrenciaRetorno.InstrucaoParacancelarProtestoConfirmada },
+            { EnumCodigoMovimento_Cecred.TituloDDAReconhecidoPeloPagador                       ,TipoOcorrenciaRetorno.TituloDDAreconhecidoPeloPagador },
+            { EnumCodigoMovimento_Cecred.TituloDDANaoReconhecidoPeloPagador                    ,TipoOcorrenciaRetorno.TituloDDANaoReconhecidoPeloPagador },
         };
     }
 }
