@@ -92,7 +92,11 @@ namespace BoletoNet
         RetiradoDeCartorioEManutencaoEmCarteira = 34,                       //34 Retirado de cartório e manutenção em carteira
         AceiteDoPagador = 35,                                               //35 Aceite do pagador
         ConfirmacaoDaAlteracaoDoNumeroDoTituloDadoPeloBeneficiario = 40,    //40 Confirmação da alteração do número do título dado pelo Beneficiário
-        ConfirmacaoDeInstrucaoDeTransferenciaDeCarteira = 48                //48 Confirmação de instrução de transferência de carteira/modalidade de cobrança
+        ConfirmacaoDeInstrucaoDeTransferenciaDeCarteira = 48,               //48 Confirmação de instrução de transferência de carteira/modalidade de cobrança
+        ConfirmacaoDaInstrucaoDeBaixaCancelamentoDeTituloNegativadoSemProtesto = 54, // 54 Confirmação da Instrução de Baixa/Cancelamento de Título Negativado sem Protesto 
+        ConfirmacaoDaInstrucaoDeNegativacao = 80,                           //80 Confirmação da instrução de negativação
+        ConfirmacaoDeDesistenciaDeProtesto = 85,                            //85 Confirmação de Desistência de Protesto
+        ConfirmacaoDeCancelamentoDoProtesto = 86,                           //86 Confirmação de cancelamento do Protesto
     }
 
     public class CodigoMovimento_Sicoob : AbstractCodigoMovimento, ICodigoMovimento
@@ -190,6 +194,10 @@ namespace BoletoNet
             { EnumCodigoMovimento_Sicoob.AceiteDoPagador                                         , "Aceite do pagador" },
             { EnumCodigoMovimento_Sicoob.TituloEmSer                                             , "Título em Ser" },
             { EnumCodigoMovimento_Sicoob.ConfirmacaoDeInstrucaoDeTransferenciaDeCarteira         , "Confirmação de instrução de transferência de carteira/modalidade de cobrança" },
+            { EnumCodigoMovimento_Sicoob.ConfirmacaoDaInstrucaoDeBaixaCancelamentoDeTituloNegativadoSemProtesto, "Confirmação da Instrução de Baixa/Cancelamento de Título Negativado sem Protesto"                        },
+            { EnumCodigoMovimento_Sicoob.ConfirmacaoDaInstrucaoDeNegativacao                     , "Confirmação da instrução de negativação"                        },
+            { EnumCodigoMovimento_Sicoob.ConfirmacaoDeDesistenciaDeProtesto                      , "Confirmação de Desistência de Protesto"                         },
+            { EnumCodigoMovimento_Sicoob.ConfirmacaoDeCancelamentoDoProtesto                     , "Confirmação de Cancelamento do Protesto"                        },
         };
         #endregion
     }
