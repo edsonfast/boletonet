@@ -116,6 +116,9 @@ namespace BoletoNet
                     case 136:
                         _IInstrucao = new Instrucao_Unicred();
                         break;
+                    case ((int)Enums.Bancos.C6Bank):
+                        _IInstrucao = new Instrucao_C6();
+                        break;
                     default:
                         throw new Exception("Código do banco não implementando: " + codigoBanco);
                 }

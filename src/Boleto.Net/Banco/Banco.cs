@@ -169,7 +169,10 @@ namespace BoletoNet
                     case 743:
                         _IBanco = new Banco_Semear();
                         break;
-					default:
+                    case ((int)Enums.Bancos.C6Bank):
+                        _IBanco = new Banco_C6();
+                        break;
+                    default:
 						throw new Exception("Código do banco não implementando: " + codigoBanco);
 				}
 			}

@@ -656,6 +656,12 @@ namespace BoletoNet
                     case (int)Bancos.HSBC:
                         agenciaCodigoCedente = string.Format("{0}/{1}", Cedente.ContaBancaria.Agencia, Utils.FormatCode(Cedente.Codigo + Cedente.DigitoCedente, 7));
                         break;
+                    case (int)Bancos.Itau:
+                        agenciaCodigoCedente = string.Format("{0}/{1}-{2}", Cedente.ContaBancaria.Agencia, Utils.FormatCode(Cedente.ContaBancaria.Conta, 7), Cedente.ContaBancaria.DigitoConta);
+                        break;
+                    case (int)Bancos.C6Bank:
+                        agenciaCodigoCedente = string.Format("{0} / {1}", Cedente.ContaBancaria.Agencia, Cedente.Codigo);
+                        break;
                     default:
                         agenciaCodigoCedente = string.Format("{0}/{1}-{2}", Cedente.ContaBancaria.Agencia, Utils.FormatCode(Cedente.Codigo, 6), Cedente.DigitoCedente);
                         break;
