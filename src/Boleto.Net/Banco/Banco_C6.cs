@@ -293,6 +293,34 @@ namespace BoletoNet {
         #endregion Métodos de geração do arquivo remessa - Genéricos
 
         #region Retorno 400
+        public override HeaderRetorno LerHeaderRetornoCNAB400(string registro) {
+            try {
+                return new HeaderRetorno(registro) {
+                    TipoRegistro = Utils.ToInt32(registro.Substring(0, 1)),
+                    CodigoRetorno = Utils.ToInt32(registro.Substring(1, 1)),
+                    LiteralRetorno = registro.Substring(002, 7),
+                    CodigoServico = Utils.ToInt32(registro.Substring(009, 2)),
+                    LiteralServico = registro.Substring(011, 8),
+
+                    CodigoEmpresa = registro.Substring(026, 12),
+                    Conta = Utils.ToInt32(registro.Substring(038, 12)),
+                    DACConta = Utils.ToInt32(registro.Substring(37, 1)),
+                    NomeEmpresa = registro.Substring(046, 30),
+                    CodigoBanco = Utils.ToInt32(registro.Substring(076, 3)),
+                    NomeBanco = registro.Substring(079, 15),
+                    DataGeracao = Utils.ToDateTime(Utils.ToInt32(registro.Substring(094, 6)).ToString("##-##-##")),
+                    Densidade = Utils.ToInt32(registro.Substring(100, 8)),
+                    NumeroSequencialArquivoRetorno = Utils.ToInt32(registro.Substring(108, 5)),
+                    ComplementoRegistro2 = registro.Substring(113, 266),
+                    DataCredito = Utils.ToDateTime(Utils.ToInt32(registro.Substring(379, 6)).ToString("##-##-##")),
+                    ComplementoRegistro3 = registro.Substring(385, 9),
+                    NumeroSequencial = Utils.ToInt32(registro.Substring(394, 6))
+                };
+            } catch (Exception ex) {
+                throw new Exception("Erro ao ler header do arquivo de RETORNO / CNAB 400.", ex);
+            }
+        }
+
         public override DetalheRetorno LerDetalheRetornoCNAB400(string registro) {
             try {
                 DetalheRetorno detalhe = new DetalheRetorno(registro);
@@ -303,13 +331,26 @@ namespace BoletoNet {
                 detalhe.CodigoInscricao = Utils.ToInt32(registro.Substring(1, 2));
                 // Número de inscrição da empresa
                 detalhe.NumeroInscricao = registro.Substring(3, 14);
+                
                 // Código da empresa
-                //detalhe.CodigoEmpresa = registro.Substring(17, 12);
+                detalhe.Conta = Utils.ToInt32(registro.Substring(17, 11));
+                // DAC da Conta
+                detalhe.DACConta = Utils.ToInt32(registro.Substring(28, 1));
+
                 // Nosso número
                 detalhe.NossoNumero = registro.Substring(62, 11);
                 detalhe.DACNossoNumero = registro.Substring(73, 1);
+                detalhe.NossoNumeroComDV = detalhe.NossoNumero + detalhe.DACNossoNumero;
                 // Carteira
                 detalhe.Carteira = registro.Substring(106, 2);
+                
+                // Código de ocorrência
+                detalhe.CodigoOcorrencia = Utils.ToInt32(registro.Substring(108, 2));
+                //Descrição da ocorrência
+                detalhe.DescricaoOcorrencia = this.Ocorrencia(registro.Substring(108, 2));
+
+                // Data de ocorrência
+                detalhe.DataOcorrencia = Utils.ToDateTime(Utils.ToInt32(registro.Substring(110, 6)).ToString("##-##-##"));
                 // Identificação do título no banco
                 detalhe.NumeroDocumento = registro.Substring(116, 10);
                 // Identificação do título no banco
@@ -328,15 +369,6 @@ namespace BoletoNet {
                 // Despesas de cobrança para os códigos de ocorrência
                 decimal valorDespesa = Convert.ToUInt64(registro.Substring(175, 13));
                 detalhe.ValorDespesa = valorDespesa / 100;
-                // Outras despesas
-                decimal valorOutrasDespesas = Convert.ToUInt64(registro.Substring(188, 13));
-                detalhe.OutrasDespesas = valorOutrasDespesas / 100;
-                // Juros operação em atraso
-                decimal valorJuros = Convert.ToUInt64(registro.Substring(201, 13));
-                //detalhe.JurosOperacaoEmAtraso = valorJuros / 100;
-                // IOF devido
-                decimal valorIOF = Convert.ToUInt64(registro.Substring(214, 13));
-                detalhe.IOF = valorIOF / 100;
                 // Abatimento concedido
                 decimal valorAbatimento = Convert.ToUInt64(registro.Substring(227, 13));
                 detalhe.Abatimentos = valorAbatimento / 100;
@@ -346,18 +378,33 @@ namespace BoletoNet {
                 // Valor pago
                 decimal valorPago = Convert.ToUInt64(registro.Substring(253, 13));
                 detalhe.ValorPago = valorPago / 100;
-                // Juros de mora
-                decimal jurosMora = Convert.ToUInt64(registro.Substring(266, 13));
-                detalhe.JurosMora = jurosMora / 100;
-                // Outros créditos
+                // Juros operação em atraso
+                decimal valorJuros = Convert.ToUInt64(registro.Substring(266, 13));
+                detalhe.Juros = valorJuros / 100;
+
+                //// Juros de mora
+                //decimal jurosMora = Convert.ToUInt64(registro.Substring(266, 13));
+                //detalhe.JurosMora = jurosMora / 100;
+
+                //// Outras despesas
+                //decimal valorOutrasDespesas = Convert.ToUInt64(registro.Substring(188, 13));
+                //detalhe.OutrasDespesas = valorOutrasDespesas / 100;
+
+
+                //// IOF devido
+                //decimal valorIOF = Convert.ToUInt64(registro.Substring(214, 13));
+                //detalhe.IOF = valorIOF / 100;
+
+                // 137 Valor Outros Acréscimos 
                 decimal outrosCreditos = Convert.ToUInt64(registro.Substring(279, 13));
                 detalhe.OutrosCreditos = outrosCreditos / 100;
-                // Data de ocorrência
-                detalhe.DataOcorrencia = Utils.ToDateTime(Utils.ToInt32(registro.Substring(110, 6)).ToString("##-##-##"));
-                // Data do crédito
+                // 140 Data do crédito
                 detalhe.DataCredito = Utils.ToDateTime(Utils.ToInt32(registro.Substring(295, 6)).ToString("##-##-##"));
-                // Código de ocorrência
-                detalhe.CodigoOcorrencia = Utils.ToInt32(registro.Substring(108, 2));
+                // 143 Código de Erro
+                detalhe.Erros = registro.Substring(377, 16);
+                // 145 Seqüencial
+                detalhe.Sequencial = Utils.ToInt32(registro.Substring(394, 6));
+                detalhe.NumeroSequencial = Utils.ToInt32(registro.Substring(394, 6));
 
                 return detalhe;
             } catch (Exception ex) {
@@ -367,6 +414,67 @@ namespace BoletoNet {
         #endregion
 
         #region Util
+        /// <summary>
+        /// Verifica o tipo de ocorrência para o arquivo remessa
+        /// </summary>
+        public string Ocorrencia(string codigo) {
+            switch (codigo) {
+                case "02":
+                    return "02-Entrada Confirmada";
+                case "03":
+                    return "03-Entrada Rejeitada";
+                case "06":
+                    return "06-Liquidação normal";
+                case "09":
+                    return "09-Baixado Automaticamente via Arquivo";
+                case "10":
+                    return "10-Baixado conforme instruções da Agência";
+                case "11":
+                    return "11-Em Ser - Arquivo de Títulos pendentes";
+                case "12":
+                    return "12-Abatimento Concedido";
+                case "13":
+                    return "13-Abatimento Cancelado";
+                case "14":
+                    return "14-Vencimento Alterado";
+                case "15":
+                    return "15-Liquidação em Cartório";
+                case "17":
+                    return "17-Liquidação após baixa ou Título não registrado";
+                case "18":
+                    return "18-Acerto de Depositária";
+                case "19":
+                    return "19-Confirmação Recebimento Instrução de Protesto";
+                case "20":
+                    return "20-Confirmação Recebimento Instrução Sustação de Protesto";
+                case "21":
+                    return "21-Acerto do Controle do Participante";
+                case "23":
+                    return "23-Entrada do Título em Cartório";
+                case "24":
+                    return "24-Entrada rejeitada por CEP Irregular";
+                case "27":
+                    return "27-Baixa Rejeitada";
+                case "28":
+                    return "28-Débito de tarifas/custas";
+                case "30":
+                    return "30-Alteração de Outros Dados Rejeitados";
+                case "32":
+                    return "32-Instrução Rejeitada";
+                case "33":
+                    return "33-Confirmação Pedido Alteração Outros Dados";
+                case "34":
+                    return "34-Retirado de Cartório e Manutenção Carteira";
+                case "35":
+                    return "35-Desagendamento ) débito automático";
+                case "68":
+                    return "68-Acerto dos dados ) rateio de Crédito";
+                case "69":
+                    return "69-Cancelamento dos dados ) rateio";
+                default:
+                    return "";
+            }
+        }
 
         /// <summary>
         /// O cálculo do dígito verificador deve tomar como base 2 dígitos da carteira concatenado ao nosso número com 10 posições
