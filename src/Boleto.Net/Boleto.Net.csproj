@@ -95,6 +95,7 @@
     <Compile Include="Banco\AbstractBanco.cs" />
     <Compile Include="Banco\Banco_C6.cs" />
     <Compile Include="Banco\Banco_Daycoval.cs" />
+    <Compile Include="Banco\Banco_Mercantil.cs" />
     <Compile Include="Banco\Banco_Nordeste.cs" />
     <Compile Include="Banco\Banco_Cecred.cs" />
     <Compile Include="Banco\Banco_Semear.cs" />

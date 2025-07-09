@@ -338,8 +338,8 @@ namespace BoletoNet {
                 detalhe.DACConta = Utils.ToInt32(registro.Substring(28, 1));
 
                 // Nosso número
-                detalhe.NossoNumero = registro.Substring(62, 11);
-                detalhe.DACNossoNumero = registro.Substring(73, 1);
+                detalhe.NossoNumero = registro.Substring(62, 10);
+                detalhe.DACNossoNumero = registro.Substring(72, 1);
                 detalhe.NossoNumeroComDV = detalhe.NossoNumero + detalhe.DACNossoNumero;
                 // Carteira
                 detalhe.Carteira = registro.Substring(106, 2);
