@@ -169,6 +169,9 @@ namespace BoletoNet
                     case 743:
                         _IBanco = new Banco_Semear();
                         break;
+					case (int)Enums.Bancos.BancoMercantil:
+                        _IBanco = new Banco_Mercantil();
+						break;
                     case ((int)Enums.Bancos.C6Bank):
                         _IBanco = new Banco_C6();
                         break;
